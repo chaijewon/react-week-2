@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import MovieMain from "./MovieMain";
-ReactDOM.render(<MovieMain />, document.getElementById('root'));
+import MovieMain from "./components/MovieMain";
+import MovieContainer from './MovieContainer'
+ReactDOM.render(<MovieContainer />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

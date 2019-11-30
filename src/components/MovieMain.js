@@ -86,6 +86,9 @@ export default class MovieMain extends Component{
        return (
            <Fragment>
                <div className={"row"} style={style}>
+                   <SlideShow images={this.state.movie_data}/>
+               </div>
+               <div className={"row"} style={style}>
                   <h1 className={"text-center"}>{this.state.title}</h1>
                </div>
                <div className={"row"} style={style}>
@@ -186,7 +189,6 @@ class SlideShow extends Component{
     constructor(props) {
         super(props);
         this.state={
-            images:[],
             properties:{
                 duration:500,
                 transitionDuration:500,
@@ -197,6 +199,7 @@ class SlideShow extends Component{
             }
         }
     }
+
     /*
          ... 스프레드 연산자
          const A=[1,2,3]
@@ -208,8 +211,13 @@ class SlideShow extends Component{
      */
     render() {
         return (
-            <div className={"slide-container"} style={{"margin":"0px auto","width":"1600px"}}>
+            <div className={"slide-container"} style={{"margin":"0px auto","width":"450px"}}>
                 <Zoom {...this.state.properties}>
+                    {
+                        this.props.images.map((m,index)=>
+                          <img src={"http://www.kobis.or.kr/"+m.thumbUrl} key={index} style={{"width":"100%","height":"300px" }}/>
+                        )
+                    }
                 </Zoom>
             </div>
         )
