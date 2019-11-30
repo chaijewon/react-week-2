@@ -1,7 +1,8 @@
 import React,{Component,Fragment} from 'react'
 import axios from 'axios'
+import {Zoom} from 'react-slideshow-image'
 // 외부서버에서 데이터 읽기
-class MovieMain extends Component{
+export default class MovieMain extends Component{
     constructor(props) {
         super(props);
         this.state={
@@ -40,6 +41,14 @@ class MovieMain extends Component{
     }
 
     onBtnClick(no){
+        var _this=this
+        axios.get('http://localhost:3355/movie',{
+            params:{
+                no:no
+            }
+        }).then(function (response) {
+            _this.setState({movie_data:response.data})
+        })
         if(no===1){
            this.setState({title:'박스오피스'})
         }
@@ -54,17 +63,20 @@ class MovieMain extends Component{
         }
 
     }
+    onMovieDetail(m){
+        this.setState({movie_detail:m,open:true})
+    }
    render() {
        const style={
            "margin":"0px auto",
-           "width":"960px"
+           "width":"1600px"
        }
        /*
          "thumbUrl":"/common/mast/movie/2019/11/thumb/thn_5658
           d961585b46dd8b05225665af2c5a.jpg"
         */
        const html=this.state.movie_data.map((m,index)=>
-          <tr key={index}>
+          <tr key={index} onClick={this.onMovieDetail.bind(this,m)}>
               <td><img src={"http://www.kobis.or.kr/"+m.thumbUrl} width={"35"} height="35"/></td>
               <td>{m.movieNm}</td>
               <td>{m.genre}</td>
@@ -78,7 +90,7 @@ class MovieMain extends Component{
                </div>
                <div className={"row"} style={style}>
                   <div className={"col-sm-5"}>
-
+                      {this.state.open?<MovieDetail m={this.state.movie_detail}/>:null}
                   </div>
                    <div className={"col-sm-7"}>
                      <table className={"table table-striped"}>
@@ -116,7 +128,92 @@ class MovieMain extends Component{
 }
 
 class MovieDetail extends Component{
-
+   render(){
+      return (
+         <table className={"table"}>
+             <tbody>
+               <tr>
+                   <td width={"30%"} className={"text-center"} rowSpan={"9"}>
+                       <img src={"http://www.kobis.or.kr/"+this.props.m.thumbUrl} width={"250"} height={"350"}/>
+                   </td>
+                   <td colSpan={"2"} className={"text-center"}>
+                       <h3>{this.props.m.movieNm}</h3>
+                       <sub style={{"color":"gray"}}>{this.props.m.movieNmEn}</sub>
+                   </td>
+               </tr>
+             <tr>
+                 <td width={"15%"} className={"text-right"}><b>개봉일</b></td>
+                 <td width={"55%"} className={"text-left"}>{this.props.m.openDt}</td>
+             </tr>
+               <tr>
+                   <td width={"15%"} className={"text-right"}><b>제작상태</b></td>
+                   <td width={"55%"} className={"text-left"}>{this.props.m.moviePrdtStat}</td>
+               </tr>
+               <tr>
+                   <td width={"15%"} className={"text-right"}><b>영화구분</b></td>
+                   <td width={"55%"} className={"text-left"}>{this.props.m.movieType}</td>
+               </tr>
+               <tr>
+                   <td width={"15%"} className={"text-right"}><b>관람등급</b></td>
+                   <td width={"55%"} className={"text-left"}>{this.props.m.watchGradeNm}</td>
+               </tr>
+               <tr>
+                   <td width={"15%"} className={"text-right"}><b>상영시간</b></td>
+                   <td width={"55%"} className={"text-left"}>{this.props.m.showTm}</td>
+               </tr>
+               <tr>
+                   <td width={"15%"} className={"text-right"}><b>제작국가</b></td>
+                   <td width={"55%"} className={"text-left"}>{this.props.m.repNationCd}</td>
+               </tr>
+               <tr>
+                   <td width={"15%"} className={"text-right"}><b>감독</b></td>
+                   <td width={"55%"} className={"text-left"}>{this.props.m.director}</td>
+               </tr>
+               <tr>
+                   <td width={"15%"} className={"text-right"}><b>장르</b></td>
+                   <td width={"55%"} className={"text-left"}>{this.props.m.genre}</td>
+               </tr>
+             <tr>
+                 <td colSpan={"3"} className={"text-left"}>{this.props.m.synop}</td>
+             </tr>
+             </tbody>
+         </table>
+      )
+   }
 }
 
-export default MovieMain
+class SlideShow extends Component{
+    constructor(props) {
+        super(props);
+        this.state={
+            images:[],
+            properties:{
+                duration:500,
+                transitionDuration:500,
+                infinite:true,
+                indicators:true,
+                scale:0.4,
+                arrows:true
+            }
+        }
+    }
+    /*
+         ... 스프레드 연산자
+         const A=[1,2,3]
+
+         {...A}
+
+         const B=[1,...A,5,6]
+         => B=[1,1,2,3,5,6]
+     */
+    render() {
+        return (
+            <div className={"slide-container"} style={{"margin":"0px auto","width":"1600px"}}>
+                <Zoom {...this.state.properties}>
+                </Zoom>
+            </div>
+        )
+    }
+}
+
+//export default MovieMain
