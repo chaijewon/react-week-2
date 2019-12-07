@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import axios from 'axios'
+import {NavLink} from 'react-router-dom'
 /*
       React :
          1) 화면 UI 라이브러리  => render()
@@ -25,6 +26,21 @@ class Released extends Component{
             page:1,
             total:0
         }
+        // 이벤트 선언
+        this.prevBtnClick=this.prevBtnClick.bind(this);
+        this.nextBtnClick=this.nextBtnClick.bind(this);
+    }
+    prevBtnClick(e){
+        //e.preventDefault()
+        this.state.page=this.state.page>1?Number(this.state.page)-1:this.state.page
+        //this.setState({page:this.state.page>1?Number(this.state.page)-1:this.state.page})
+        this.post(e)
+    }
+    nextBtnClick(e){
+        //e.preventDefault()
+        //this.setState({page:this.state.page<this.state.total?Number(this.state.page+1):this.state.page})
+        this.state.page=this.state.page<this.state.total?Number(this.state.page+1):this.state.page
+        this.post(e)
     }
     post(e){
         //e.preventDefault()
@@ -39,33 +55,52 @@ class Released extends Component{
             _this.setState({movie_data:response.data})
         })
 
-        axios.get("http://localhost:3355/total").then(function (response) {
+       /* axios.get("http://localhost:3355/total").then(function (response) {
             _this.setState({total:response.data.total})
-        })
+        })*/
 
     }
     componentDidMount() {
-        this.post()
+        var _this=this
+        // /released?page=1 aa
+        axios.get('http://localhost:3355/released',{
+            params:{
+                page:_this.state.page
+            }
+        }).then(function (response) {
+            _this.setState({movie_data:response.data})
+        })
+
+        axios.get("http://localhost:3355/total").then(function (response) {
+            _this.setState({total:response.data.total})
+        })
     }
 
     render() {
         const html=this.state.movie_data.map((m)=>
             <div className="col-md-3">
                 <div className="thumbnail">
-                    <a href="#">
-                        <img src={m.poster} alt="Lights" style={{"width":"100%"}}/>
+                    <NavLink to={"/movie_detail/"+m.no}>
+                        <img src={m.poster} alt="Lights" style={{"width":"200","height":"250"}}/>
                             <div className="caption">
-                                <p>{m.title}</p>
+                                <p>{m.title.substring(0,13)}</p>
                             </div>
-                    </a>
+                    </NavLink>
                 </div>
             </div>
         )
         return (
             <React.Fragment>
             <h1 className={"text-center"}>현재 상영 영화</h1>
-                <div className={"row"}>
+                <div className={"row"} style={{"margin":"0px auto","width":"960px"}}>
                     {html}
+                </div>
+                <div className={"row text-center"}>
+                  <input type={"button"} className={"btn btn-lg btn-primary"}
+                         value={"이전"} onClick={this.prevBtnClick}/>
+                    {this.state.page} page / {this.state.total} pages
+                    <input type={"button"} className={"btn btn-lg btn-success"}
+                           value={"다음"} onClick={this.nextBtnClick}/>
                 </div>
             </React.Fragment>
         )

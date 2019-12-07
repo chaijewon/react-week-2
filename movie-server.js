@@ -136,6 +136,21 @@ app.get("/total",(req,res)=>{
     })
 })
 
+// 상세보기
+app.get('/detail',(req,res)=>{
+    var no=req.query.no
+    var url="mongodb://211.238.142.181:27017"
+    Client.connect(url,(err,client)=>{
+        // 데이터 베이스
+        var db=client.db("mydb")
+        // 데이터 연결
+        db.collection('movie').find({no:Number(no)}).toArray(function (err,docs) {
+            res.json(docs)
+            client.close()
+        })
+    })
+})
+
 
 
 
