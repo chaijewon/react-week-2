@@ -59,16 +59,16 @@ class MovieDetail extends Component{
                   </table>
               </div>
                 {/* background-color: #E6E6FA;
-    padding:10px;
-    overflow: auto;
-    white-space: pre-wrap;*/}
+                    padding:10px;
+                    overflow: auto;
+                    white-space: pre-wrap;*/}
                 <div className={"row"} style={{"margin":"0px auto","width":"960px"}}>
                     <pre style={{"backgroundColor":"#E6E6FA",
                         "padding":"10px","overflow":"auto",
                         "whiteSpace":"pre-wrap"}}>{m.story}</pre>
                 </div>
                 <div className={"row"} style={{"margin":"0px auto","width":"960px"}}>
-
+                  <NavLink to={"/movie_released"} className={"btn btn-sm btn-danger"}>목록</NavLink>
                 </div>
 
             </React.Fragment>

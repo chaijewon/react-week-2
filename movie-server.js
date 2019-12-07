@@ -150,6 +150,19 @@ app.get('/detail',(req,res)=>{
         })
     })
 })
+// 개봉 예정작
+app.get("/scheduled",(req,res)=>{
+    var url="mongodb://211.238.142.181:27017"
+    Client.connect(url,(err,client)=>{
+        // 데이터 베이스
+        var db=client.db("mydb")
+        // 데이터 연결
+        db.collection('movie').find({cateno:2}).toArray(function (err,docs) {
+            res.json(docs)
+            client.close()
+        })
+    })
+})
 
 
 
