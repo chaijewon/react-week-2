@@ -30,7 +30,7 @@ class Released extends Component{
         //e.preventDefault()
 
         var _this=this
-        // /released?page=1
+        // /released?page=1 aa
         axios.get('http://localhost:3355/released',{
             params:{
                 page:_this.state.page

@@ -8,17 +8,17 @@ import News from "./components/News";
 class MovieApp extends Component{
     render() {
         return (
-            <React.Fragment>
                 <Router>
+                    <div>
                     <Menu/>
                     <Switch>
                         <Route exact path={"/movie_home"} component={MovieMain}/>
-                        <Route path={"movie_released"} component={Released}/>
-                        <Route path={"movie_scheduled"} component={Scheduled}/>
-                        <Route path={"movie_news"} component={News}/>
+                        <Route path={"/movie_released"} component={Released}/>
+                        <Route path={"/movie_scheduled"} component={Scheduled}/>
+                        <Route path={"/movie_news"} component={News}/>
                     </Switch>
+                    </div>
                 </Router>
-            </React.Fragment>
         )
     }
 }
