@@ -103,7 +103,7 @@ app.get('/news_pop',function (req,res) {
 // 페이지별로 데이터 읽기
 app.get('/released',function (req,res) {
     // page 받기
-    var cate=req.query.cate
+    //var cate=req.query.cate
     var page=req.query.page
     var rowSize=20
     var skip=(rowSize*page)-rowSize
