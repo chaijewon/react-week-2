@@ -10,7 +10,8 @@ class Menu extends Component{
                     </div>
                     <ul className="nav navbar-nav">
                         <li className="active"><a href="#">Home</a></li>
-                        <li><a href="#">현재상영/개봉예정</a></li>
+                        <li><a href="#">현재상영</a></li>
+                        <li><a href="#">개봉예정</a></li>
                         <li className="dropdown"><a className="dropdown-toggle" data-toggle="dropdown" href="#">박스오피스<span className="caret"></span></a>
                             <ul className="dropdown-menu">
                                 <li><a href="#">주간</a></li>
